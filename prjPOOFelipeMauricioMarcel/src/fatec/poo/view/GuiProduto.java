@@ -5,6 +5,9 @@
  */
 package fatec.poo.view;
 
+import fatec.poo.model.Produto;
+import java.util.ArrayList;
+
 /**
  *
  * @author Felipe
@@ -14,8 +17,9 @@ public class GuiProduto extends javax.swing.JFrame {
     /**
      * Creates new form GuiProduto
      */
-    public GuiProduto() {
+    public GuiProduto(ArrayList<Produto> p) {
         initComponents();
+        cadProd = p;
     }
 
     /**
@@ -76,17 +80,37 @@ public class GuiProduto extends javax.swing.JFrame {
         jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.setEnabled(false);
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         jButtonAlterar.setText("Alterar");
         jButtonAlterar.setEnabled(false);
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         jButtonIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         jButtonIncluir.setText("Incluir");
         jButtonIncluir.setEnabled(false);
+        jButtonIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIncluirActionPerformed(evt);
+            }
+        });
 
         jButtonConsult.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         jButtonConsult.setText("Consultar");
+        jButtonConsult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsultActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,6 +188,132 @@ public class GuiProduto extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButtonSairActionPerformed
 
+    private void jButtonConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultActionPerformed
+        int x;
+        for (x = 0; x <  cadProd.size(); x++)
+        {
+            if( cadProd.get(x) instanceof Produto)
+            {
+                if (((Produto)cadProd.get(x)).getCodigo().equals(jTextFieldCodigo.getText()))
+                {
+                    break;
+                }
+            }      
+        }
+        if(x < cadProd.size())
+        {
+         posProduto = x;
+        }
+        else
+        {
+         posProduto = -1;
+        
+        }
+        if(posProduto >= 0)
+        {
+            jTextFieldCodigo.setText((String) cadProd.get(posProduto).getCodigo());
+            jTextFieldDescricao.setText(cadProd.get(posProduto).getDescricao());
+            jTextFieldQtdDisp.setText(String.valueOf(cadProd.get(posProduto).getQtdeEstoque()));
+            jTextFieldPrecoUnit.setText(String.valueOf(cadProd.get(posProduto).getPreco()));
+            jTextFieldEstqMin.setText(String.valueOf(cadProd.get(posProduto).getEstoqueMinimo()));
+        
+            jButtonConsult.setEnabled(false);
+            jButtonIncluir.setEnabled(false);
+            jButtonAlterar.setEnabled(true);
+            jButtonExcluir.setEnabled(true);
+        }
+        else
+        {
+            jButtonConsult.setEnabled(false);
+            jButtonIncluir.setEnabled(true);
+            jButtonAlterar.setEnabled(false);
+            jButtonExcluir.setEnabled(false);
+            jTextFieldDescricao.requestFocus();
+        }
+        
+        jTextFieldCodigo.setEnabled(false);
+        jTextFieldDescricao.setEnabled(true);
+        jTextFieldQtdDisp.setEnabled(true);
+        jTextFieldPrecoUnit.setEnabled(true);
+        jTextFieldEstqMin.setEnabled(true);
+    }//GEN-LAST:event_jButtonConsultActionPerformed
+
+    private void jButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirActionPerformed
+        Produto prod = new Produto(jTextFieldCodigo.getText(), 
+                               jTextFieldDescricao.getText()); 
+                               prod.setQtdeEstoque(Double.parseDouble(jTextFieldQtdDisp.getText()));
+                               prod.setPreco(Double.parseDouble(jTextFieldPrecoUnit.getText()));
+                               prod.setEstoqueMinimo(Double.parseDouble(jTextFieldEstqMin.getText()));                                
+                              
+                               
+        cadProd.add(prod);        
+        
+        jTextFieldCodigo.setText(null);
+        jTextFieldDescricao.setText(null);
+        jTextFieldQtdDisp.setText(null);
+        jTextFieldPrecoUnit.setText(null);
+        jTextFieldEstqMin.setText(null);
+        jButtonConsult.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);
+        
+        jTextFieldCodigo.setEnabled(true);
+        jTextFieldDescricao.setEnabled(false);
+        jTextFieldQtdDisp.setEnabled(false);
+        jTextFieldPrecoUnit.setEnabled(false);
+        jTextFieldEstqMin.setEnabled(false); 
+        jTextFieldCodigo.requestFocus();
+    }//GEN-LAST:event_jButtonIncluirActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        jTextFieldCodigo.setEnabled(false);
+        cadProd.get(posProduto).setDescricao(jTextFieldDescricao.getText());
+        ((Produto)cadProd.get(posProduto)).setQtdeEstoque(Double.parseDouble(jTextFieldQtdDisp.getText()));
+        ((Produto)cadProd.get(posProduto)).setPreco(Double.parseDouble(jTextFieldPrecoUnit.getText()));
+        ((Produto)cadProd.get(posProduto)).setEstoqueMinimo(Double.parseDouble(jTextFieldEstqMin.getText()));
+                
+        jTextFieldCodigo.setText(null);
+        jTextFieldDescricao.setText(null);
+        jTextFieldQtdDisp.setText(null);
+        jTextFieldPrecoUnit.setText(null);
+        jTextFieldEstqMin.setText(null);
+        jButtonConsult.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);        
+        jTextFieldCodigo.setEnabled(true);
+        jTextFieldDescricao.setEnabled(false);
+        jTextFieldQtdDisp.setEnabled(false);
+        jTextFieldPrecoUnit.setEnabled(false);
+        jTextFieldEstqMin.setEnabled(false); 
+        jTextFieldCodigo.requestFocus();
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        if (posProduto >= 0)
+        {
+            cadProd.remove(posProduto);
+            posProduto = -1;
+        }
+        
+        jTextFieldCodigo.setText(null);
+        jTextFieldDescricao.setText(null);
+        jTextFieldQtdDisp.setText(null);
+        jTextFieldPrecoUnit.setText(null);
+        jTextFieldEstqMin.setText(null);
+        jButtonConsult.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);        
+        jTextFieldCodigo.setEnabled(true);
+        jTextFieldDescricao.setEnabled(false);
+        jTextFieldQtdDisp.setEnabled(false);
+        jTextFieldPrecoUnit.setEnabled(false);
+        jTextFieldEstqMin.setEnabled(false); 
+        jTextFieldCodigo.requestFocus();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -194,7 +344,7 @@ public class GuiProduto extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GuiProduto().setVisible(true);
+                //new GuiProduto().setVisible(true);
             }
         });
     }
@@ -216,4 +366,6 @@ public class GuiProduto extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldPrecoUnit;
     private javax.swing.JTextField jTextFieldQtdDisp;
     // End of variables declaration//GEN-END:variables
+    private ArrayList<Produto> cadProd;
+    private int posProduto;
 }

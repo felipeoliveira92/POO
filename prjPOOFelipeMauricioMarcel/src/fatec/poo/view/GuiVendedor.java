@@ -1,5 +1,11 @@
 package fatec.poo.view;
 
+import fatec.poo.model.Pessoa;
+import fatec.poo.model.Vendedor;
+import java.util.ArrayList;
+import java.util.HashSet;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Felipe
@@ -9,8 +15,9 @@ public class GuiVendedor extends javax.swing.JFrame {
     /**
      * Creates new form GuiVendedor
      */
-    public GuiVendedor() {
+    public GuiVendedor(ArrayList<Pessoa> c) {
         initComponents();
+        cadCliVend = c;
     }
 
     /**
@@ -100,18 +107,38 @@ public class GuiVendedor extends javax.swing.JFrame {
 
         jButtonConsult.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         jButtonConsult.setText("Consultar");
+        jButtonConsult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsultActionPerformed(evt);
+            }
+        });
 
         jButtonIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         jButtonIncluir.setText("Incluir");
         jButtonIncluir.setEnabled(false);
+        jButtonIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIncluirActionPerformed(evt);
+            }
+        });
 
         jButtonAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         jButtonAlterar.setText("Alterar");
         jButtonAlterar.setEnabled(false);
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.setEnabled(false);
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/exit.png"))); // NOI18N
         jButtonSair.setText("Sair");
@@ -240,6 +267,177 @@ public class GuiVendedor extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButtonSairActionPerformed
 
+    private void jButtonConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultActionPerformed
+        int x;
+        for (x = 0; x < cadCliVend.size(); x++){
+         if(cadCliVend.get(x) instanceof Vendedor)
+            if (((Vendedor)cadCliVend.get(x)).getCpf().equals(jFormattedTxtCPF.getText())){
+            break;
+            }
+       
+      }
+         if(Pessoa.validarCPF(jFormattedTxtCPF.getText())== true){
+        if(x < cadCliVend.size()){
+         posVendedor = x;
+        }else{
+         posVendedor = -1;
+        
+        }
+      if(posVendedor >= 0){
+        jFormattedTxtCPF.setText(((Vendedor)cadCliVend.get(posVendedor)).getCpf());
+        jTextFieldNome.setText(cadCliVend.get(posVendedor).getNome());
+        jTextFieldEnd.setText(cadCliVend.get(posVendedor).getEndereco());
+        jTextFieldCid.setText(cadCliVend.get(posVendedor).getCidade());
+        jTextFieldDdd.setText(cadCliVend.get(posVendedor).getCidade());
+        jTextFieldFone.setText(String.valueOf(cadCliVend.get(posVendedor).getTelefone()));
+        jTextFieldCep.setText(String.valueOf(cadCliVend.get(posVendedor).getCep()));
+        jComboBoxUf.setActionCommand(cadCliVend.get(posVendedor).getUf());
+        jTextFieldSalBase.setText(String.valueOf(((Vendedor)cadCliVend.get(posVendedor)).getSalarioBase()));
+        jTextFieldComissao.setText(String.valueOf(((Vendedor)cadCliVend.get(posVendedor)).getTaxaComissao()));
+            jButtonConsult.setEnabled(false);
+            jButtonIncluir.setEnabled(false);
+            jButtonAlterar.setEnabled(true);
+            jButtonExcluir.setEnabled(true);
+      }else{
+            jButtonConsult.setEnabled(false);
+            jButtonIncluir.setEnabled(true);
+            jButtonAlterar.setEnabled(false);
+            jButtonExcluir.setEnabled(false);
+            jTextFieldNome.requestFocus();
+      
+
+      }
+        jFormattedTxtCPF.setEnabled(false);
+        jTextFieldNome.setEnabled(true);
+        jTextFieldEnd.setEnabled(true);
+        
+        jTextFieldCid.setEnabled(true);
+        jTextFieldDdd.setEnabled(true);
+        jTextFieldFone.setEnabled(true);   
+        jTextFieldCep.setEnabled(true);   
+        jTextFieldSalBase.setEnabled(true);
+        jTextFieldComissao.setEnabled(true);
+        jComboBoxUf.setEnabled(true);
+        
+        }else{
+         JOptionPane.showMessageDialog(null, "CPF INVALIDO");
+         jFormattedTxtCPF.requestFocus();
+        }
+    }//GEN-LAST:event_jButtonConsultActionPerformed
+
+    private void jButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirActionPerformed
+        Vendedor vend = new Vendedor(jFormattedTxtCPF.getText(), 
+                               jTextFieldNome.getText(), 
+                               Double.parseDouble(jTextFieldSalBase.getText()));
+                              
+                               vend.setEndereco(jTextFieldEnd.getText());
+                               vend.setCidade(jTextFieldCid.getText());
+                               vend.setDdd(jTextFieldDdd.getText());
+                               vend.setTelefone(jTextFieldFone.getText());
+                               vend.setCep(jTextFieldCep.getText());
+                               vend.setUf(jComboBoxUf.getActionCommand());
+                               vend.setTaxaComissao(Double.parseDouble(jTextFieldComissao.getText()));
+        cadCliVend.add(vend);        
+        
+        jFormattedTxtCPF.setText(null);
+        jTextFieldNome.setText(null);
+        jTextFieldEnd.setText(null);
+        jTextFieldCid.setText(null);
+        jTextFieldDdd.setText(null);
+        jTextFieldFone.setText(null);
+        jTextFieldCep.setText(null);
+        jTextFieldSalBase.setText(null);
+        jComboBoxUf.setActionCommand(null);
+        jTextFieldComissao.setText(null);
+        jButtonConsult.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);       
+        jFormattedTxtCPF.setEnabled(true);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldEnd.setEnabled(false);
+        jTextFieldCid.setEnabled(false);
+        jTextFieldDdd.setEnabled(false);
+        jTextFieldFone.setEnabled(false);   
+        jTextFieldCep.setEnabled(false);   
+        jComboBoxUf.setEnabled(false);    
+        jTextFieldSalBase.setEnabled(false);
+        jTextFieldComissao.setEnabled(false);
+        jFormattedTxtCPF.requestFocus();
+    }//GEN-LAST:event_jButtonIncluirActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        jFormattedTxtCPF.setEnabled(false);
+        cadCliVend.get(posVendedor).setNome(jTextFieldNome.getText());
+        cadCliVend.get(posVendedor).setEndereco(jTextFieldEnd.getText());
+        cadCliVend.get(posVendedor).setCidade(jTextFieldCid.getText());
+        cadCliVend.get(posVendedor).setDdd(jTextFieldDdd.getText());        
+        cadCliVend.get(posVendedor).setTelefone(jTextFieldFone.getText());
+        cadCliVend.get(posVendedor).setCep(jTextFieldCep.getText());
+        cadCliVend.get(posVendedor).setUf(jComboBoxUf.getActionCommand());
+        ((Vendedor)cadCliVend.get(posVendedor)).setSalarioBase(Double.parseDouble(jTextFieldSalBase.getText()));
+        ((Vendedor)cadCliVend.get(posVendedor)).setTaxaComissao(Double.parseDouble(jTextFieldComissao.getText()));
+        
+        jFormattedTxtCPF.setText(null);
+        jTextFieldNome.setText(null);
+        jTextFieldEnd.setText(null);
+        jTextFieldCid.setText(null);
+        jTextFieldDdd.setText(null);
+        jTextFieldFone.setText(null);
+        jTextFieldCep.setText(null);
+        jTextFieldSalBase.setText(null);
+        jComboBoxUf.setActionCommand(null);
+        jTextFieldComissao.setText(null);
+        jButtonConsult.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);       
+        jFormattedTxtCPF.setEnabled(true);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldEnd.setEnabled(false);
+        jTextFieldCid.setEnabled(false);
+        jTextFieldDdd.setEnabled(false);
+        jTextFieldFone.setEnabled(false);   
+        jTextFieldCep.setEnabled(false);   
+        jComboBoxUf.setEnabled(false);    
+        jTextFieldSalBase.setEnabled(false);
+        jTextFieldComissao.setEnabled(false);
+        jFormattedTxtCPF.requestFocus();
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        if (posVendedor >= 0)
+        {
+            cadCliVend.remove(posVendedor);
+            posVendedor = -1;
+        }
+        jFormattedTxtCPF.setText(null);
+        jTextFieldNome.setText(null);
+        jTextFieldEnd.setText(null);
+        jTextFieldCid.setText(null);
+        jTextFieldDdd.setText(null);
+        jTextFieldFone.setText(null);
+        jTextFieldCep.setText(null);
+        jTextFieldSalBase.setText(null);
+        jComboBoxUf.setActionCommand(null);
+        jTextFieldComissao.setText(null);
+        jButtonConsult.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);       
+        jFormattedTxtCPF.setEnabled(true);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldEnd.setEnabled(false);
+        jTextFieldCid.setEnabled(false);
+        jTextFieldDdd.setEnabled(false);
+        jTextFieldFone.setEnabled(false);   
+        jTextFieldCep.setEnabled(false);   
+        jComboBoxUf.setEnabled(false);    
+        jTextFieldSalBase.setEnabled(false);
+        jTextFieldComissao.setEnabled(false);
+        jFormattedTxtCPF.requestFocus();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -270,7 +468,7 @@ public class GuiVendedor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GuiVendedor().setVisible(true);
+                //new GuiVendedor().setVisible(true);
             }
         });
     }
@@ -301,4 +499,7 @@ public class GuiVendedor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldSalBase;
     // End of variables declaration//GEN-END:variables
+    private ArrayList<Pessoa> cadCliVend;
+    private int posVendedor;
+
 }

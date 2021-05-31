@@ -1,5 +1,9 @@
 package fatec.poo.view;
 
+import fatec.poo.model.Pessoa;
+import fatec.poo.model.Produto;
+import java.util.ArrayList;
+
 /**
  *
  * @author Felipe
@@ -102,15 +106,15 @@ public class GuiMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClientesActionPerformed
-        new GuiCliente().setVisible(true);
+        new GuiCliente(cadCliVend).setVisible(true);
     }//GEN-LAST:event_jMenuClientesActionPerformed
 
     private void jMenuVendedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVendedoresActionPerformed
-        new GuiVendedor().setVisible(true);
+        new GuiVendedor(cadCliVend).setVisible(true);
     }//GEN-LAST:event_jMenuVendedoresActionPerformed
 
     private void jMenuProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutosActionPerformed
-        new GuiProduto().setVisible(true);
+        new GuiProduto(cadProd).setVisible(true);
     }//GEN-LAST:event_jMenuProdutosActionPerformed
 
     private void jMenuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSairActionPerformed
@@ -118,7 +122,7 @@ public class GuiMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSairActionPerformed
 
     private void jMenuEmitPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEmitPedidoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jMenuEmitPedidoActionPerformed
 
     /**
@@ -166,4 +170,7 @@ public class GuiMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuSair;
     private javax.swing.JMenuItem jMenuVendedores;
     // End of variables declaration//GEN-END:variables
+    private ArrayList<Pessoa> cadCliVend = new ArrayList<Pessoa>();
+    private ArrayList<Produto> cadProd = new ArrayList<Produto>();
+
 }

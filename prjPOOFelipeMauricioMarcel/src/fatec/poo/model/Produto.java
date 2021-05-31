@@ -45,6 +45,10 @@ public class Produto {
     public double getPreco() {
         return preco;
     }
+    
+    public Object getCodigo() {
+        return codigo;
+    }
 
     public void setPreco(double preco) {
         this.preco = preco;

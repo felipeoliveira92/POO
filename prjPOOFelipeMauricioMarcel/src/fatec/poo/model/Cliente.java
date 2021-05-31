@@ -10,8 +10,7 @@ import java.util.ArrayList;
 public class Cliente extends Pessoa {
     private Double limiteCred;
     private Double limiteDisp;
-    private ArrayList<Pedido> pedidos;
-    
+    private ArrayList<Pedido> pedidos;    
     
     public Cliente (String cpf, String nome, Double limiteCred){
         super(cpf, nome);
@@ -21,6 +20,10 @@ public class Cliente extends Pessoa {
     }
     
     public void setLimiteCred(double limiteCred) {
+        this.limiteCred = limiteCred;
+    }
+    
+    public void setLimiteDisp(double limiteCred) {
         this.limiteCred = limiteCred;
     }
 

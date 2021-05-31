@@ -1,4 +1,10 @@
 package fatec.poo.view;
+
+import fatec.poo.model.Cliente;
+import fatec.poo.model.Pessoa;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Felipe
@@ -8,8 +14,9 @@ public class GuiCliente extends javax.swing.JFrame {
     /**
      * Creates new form GuiCliente
      */
-    public GuiCliente() {
+    public GuiCliente(ArrayList<Pessoa> c) {
         initComponents();
+        cadCliVend = c;
     }
 
     /**
@@ -255,15 +262,144 @@ public class GuiCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
-
+            int x;
+        
+        for (x = 0; x < cadCliVend.size(); x++)
+        {
+         if(cadCliVend.get(x) instanceof Cliente)
+         {             
+          if (((Cliente)cadCliVend.get(x)).getCpf().equals(jFormattedTextFieldCPF.getText()))
+          {
+            break;
+          }
+         }
+        }
+        if(Pessoa.validarCPF(jFormattedTextFieldCPF.getText())== true)
+        {
+            if(x < cadCliVend.size()){
+                posCliente = x;
+            }else{
+                posCliente = -1;        
+            }
+            if(posCliente >= 0)
+            {
+                jFormattedTextFieldCPF.setText(((Cliente)cadCliVend.get(posCliente)).getCpf());
+                jTextFieldNome.setText(cadCliVend.get(posCliente).getNome());
+                jTextFieldEndereco.setText(cadCliVend.get(posCliente).getEndereco());
+                jTextFieldCidade.setText(cadCliVend.get(posCliente).getCidade());
+                jTextFieldDdd.setText(cadCliVend.get(posCliente).getDdd());
+                jTextFieldFone.setText(String.valueOf(cadCliVend.get(posCliente).getTelefone()));
+                jTextFieldCEP.setText(String.valueOf(cadCliVend.get(posCliente).getCep()));
+                jComboBoxUF.setActionCommand(cadCliVend.get(posCliente).getUf());
+                jTextFieldLimCred.setText(String.valueOf(((Cliente)cadCliVend.get(posCliente)).getLimiteCred()));
+                jLabelLimDisp.setText(String.valueOf(((Cliente)cadCliVend.get(posCliente)).getLimiteDisp()));
+                jButtonConsultar.setEnabled(false);
+                jButtonIncluir.setEnabled(false);
+                jButtonAlterar.setEnabled(true);
+                jButtonExcluir.setEnabled(true);
+            }
+            else
+            {
+                jButtonConsultar.setEnabled(false);
+                jButtonIncluir.setEnabled(true);
+                jButtonAlterar.setEnabled(false);
+                jButtonExcluir.setEnabled(false);
+                jTextFieldNome.requestFocus();
+            }
+            jFormattedTextFieldCPF.setEnabled(false);
+            jTextFieldNome.setEnabled(true);
+            jTextFieldEndereco.setEnabled(true);
+            jTextFieldCidade.setEnabled(true);
+            jTextFieldDdd.setEnabled(true);
+            jTextFieldFone.setEnabled(true);   
+            jTextFieldCEP.setEnabled(true);   
+            jTextFieldLimCred.setEnabled(true);
+            jComboBoxUF.setEnabled(true);
+        }
+        else
+        {
+         JOptionPane.showMessageDialog(null, "CPF Invalido");
+         jFormattedTextFieldCPF.requestFocus();
+        }
     }//GEN-LAST:event_jButtonConsultarActionPerformed
 
     private void jButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirActionPerformed
-
+         Cliente cl = new Cliente(jFormattedTextFieldCPF.getText(), 
+                               jTextFieldNome.getText(), 
+                               Double.parseDouble(jTextFieldLimCred.getText()));                              
+                               cl.setEndereco(jTextFieldEndereco.getText());
+                               cl.setCidade(jTextFieldCidade.getText());
+                               cl.setDdd(jTextFieldDdd.getText());
+                               cl.setTelefone(jTextFieldFone.getText());
+                               cl.setCep(jTextFieldCEP.getText());
+                               cl.setUf(jComboBoxUF.getActionCommand());
+                               
+        cadCliVend.add(cl);
+        
+        
+        jFormattedTextFieldCPF.setText(null);
+        jTextFieldNome.setText(null);
+        jTextFieldEndereco.setText(null);
+        jTextFieldCidade.setText(null);
+        jTextFieldDdd.setText(null);
+        jTextFieldFone.setText(null);
+        jTextFieldCEP.setText(null);
+        jTextFieldLimCred.setText(null);
+        jLabelLimDisp.setText(null);
+        jComboBoxUF.setActionCommand(null);
+        jButtonConsultar.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);
+        
+        jFormattedTextFieldCPF.setEnabled(true);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldEndereco.setEnabled(false);
+        jTextFieldCidade.setEnabled(false);
+        jTextFieldDdd.setEnabled(false);
+        jTextFieldFone.setEnabled(false);   
+        jTextFieldCEP.setEnabled(false);   
+        jComboBoxUF.setEnabled(false);    
+        jTextFieldLimCred.setEnabled(false);
+       
+        jFormattedTextFieldCPF.requestFocus();
     }//GEN-LAST:event_jButtonIncluirActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        jFormattedTextFieldCPF.setEnabled(false);
+        cadCliVend.get(posCliente).setNome(jTextFieldNome.getName());
+        cadCliVend.get(posCliente).setEndereco(jTextFieldEndereco.getText());
+        cadCliVend.get(posCliente).setCidade(jTextFieldCidade.getText());
+        cadCliVend.get(posCliente).setTelefone(jTextFieldFone.getText());
+        cadCliVend.get(posCliente).setCep(jTextFieldCEP.getText());
+        cadCliVend.get(posCliente).setUf(jComboBoxUF.getActionCommand());
+        ((Cliente)cadCliVend.get(posCliente)).setLimiteCred(Double.parseDouble(jTextFieldLimCred.getText()));
+        ((Cliente)cadCliVend.get(posCliente)).setLimiteDisp(Double.parseDouble(jLabelLimDisp.getText()));
+        jFormattedTextFieldCPF.setText(null);
+        jTextFieldNome.setText(null);
+        jTextFieldEndereco.setText(null);
+        jTextFieldCidade.setText(null);
+        jTextFieldDdd.setText(null);
+        jTextFieldFone.setText(null);
+        jTextFieldCEP.setText(null);
+        jTextFieldLimCred.setText(null);
+        jLabelLimDisp.setText(null);
+        jComboBoxUF.setActionCommand(null);
+        jButtonConsultar.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonIncluir.setEnabled(false);
         
+        jFormattedTextFieldCPF.setEnabled(true);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldEndereco.setEnabled(false);
+        jTextFieldCidade.setEnabled(false);
+        jTextFieldDdd.setEnabled(false);
+        jTextFieldFone.setEnabled(false);   
+        jTextFieldCEP.setEnabled(false);   
+        jTextFieldLimCred.setEnabled(false);
+        jComboBoxUF.setEnabled(false);    
+        jFormattedTextFieldCPF.requestFocus();
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jTextFieldNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNomeActionPerformed
@@ -271,7 +407,36 @@ public class GuiCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldNomeActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-
+        if (posCliente >= 0){
+            cadCliVend.remove(posCliente);
+            posCliente = -1;
+        }
+        
+        jFormattedTextFieldCPF.setText(null);
+        jTextFieldNome.setText(null);
+        jTextFieldEndereco.setText(null);
+        jTextFieldCidade.setText(null);
+        jTextFieldDdd.setText(null);
+        jTextFieldFone.setText(null);
+        jTextFieldCEP.setText(null);
+        jTextFieldLimCred.setText(null);
+        jLabelLimDisp.setText(null);
+        jComboBoxUF.setActionCommand(null);
+        jButtonConsultar.setEnabled(true);
+        jButtonIncluir.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonIncluir.setEnabled(false);        
+        
+        jFormattedTextFieldCPF.setEnabled(true);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldEndereco.setEnabled(false);
+        jTextFieldCidade.setEnabled(false);
+        jTextFieldDdd.setEnabled(false);
+        jTextFieldFone.setEnabled(false);   
+        jTextFieldCEP.setEnabled(false);   
+        jTextFieldLimCred.setEnabled(false);
+        jComboBoxUF.setEnabled(false);    
+        jFormattedTextFieldCPF.requestFocus();
 
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
@@ -309,7 +474,6 @@ public class GuiCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GuiCliente().setVisible(true);
             }
         });
     }
@@ -340,4 +504,6 @@ public class GuiCliente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldLimCred;
     private javax.swing.JTextField jTextFieldNome;
     // End of variables declaration//GEN-END:variables
+    private ArrayList<Pessoa> cadCliVend;
+    private int posCliente;
 }
