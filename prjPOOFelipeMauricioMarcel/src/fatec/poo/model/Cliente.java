@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class Cliente extends Pessoa {
     private Double limiteCred;
     private Double limiteDisp;
-    private ArrayList<Pedido> pedidos;    
+    private ArrayList<Pedido> pedidos;
+    private String tipo;
     
     public Cliente (String cpf, String nome, Double limiteCred){
         super(cpf, nome);
@@ -39,5 +40,13 @@ public class Cliente extends Pessoa {
         pedidos.add(pedido);
         pedido.setCliente(this);
         
+    }
+    
+    public void setTipo(String tipo){
+        this.tipo = tipo;
+    }
+    
+    public String getTipo(){
+        return tipo;
     }
 }

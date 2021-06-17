@@ -1,7 +1,10 @@
 package fatec.poo.view;
 
+import fatec.poo.model.Cliente;
+import fatec.poo.model.Pedido;
 import fatec.poo.model.Pessoa;
 import fatec.poo.model.Produto;
+import fatec.poo.model.Vendedor;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +37,7 @@ public class GuiMenu extends javax.swing.JFrame {
         jMenuSair = new javax.swing.JMenuItem();
         jMenuPedido = new javax.swing.JMenu();
         jMenuEmitPedido = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Controle de Vendas");
@@ -87,6 +91,14 @@ public class GuiMenu extends javax.swing.JFrame {
         });
         jMenuPedido.add(jMenuEmitPedido);
 
+        jMenuItem1.setText("Atualizar Limite de Credito");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuPedido.add(jMenuItem1);
+
         jMenuBar1.add(jMenuPedido);
 
         setJMenuBar(jMenuBar1);
@@ -122,8 +134,12 @@ public class GuiMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSairActionPerformed
 
     private void jMenuEmitPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEmitPedidoActionPerformed
-        
+        new GuiEmitirPedido(emitirPed, pesqCliente, pesqVendedor, cadCliVend, cadProd).setVisible(true);
     }//GEN-LAST:event_jMenuEmitPedidoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        new GuiAtualizaLimiteCredito(cadCliVend).setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,6 +181,7 @@ public class GuiMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuCadastros;
     private javax.swing.JMenuItem jMenuClientes;
     private javax.swing.JMenuItem jMenuEmitPedido;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu jMenuPedido;
     private javax.swing.JMenuItem jMenuProdutos;
     private javax.swing.JMenuItem jMenuSair;
@@ -172,5 +189,8 @@ public class GuiMenu extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private ArrayList<Pessoa> cadCliVend = new ArrayList<Pessoa>();
     private ArrayList<Produto> cadProd = new ArrayList<Produto>();
+    private ArrayList<Pedido> emitirPed = new ArrayList<Pedido>();
+    private ArrayList<Cliente> pesqCliente = new ArrayList<Cliente>();
+    private ArrayList<Vendedor> pesqVendedor = new ArrayList<Vendedor>();
 
 }
